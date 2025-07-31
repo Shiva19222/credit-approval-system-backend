@@ -1,0 +1,19 @@
+# Dockerfile
+
+# Use a specific Python base image for consistency
+FROM python:3.9-slim-buster
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Set environment variables for Python, good for Docker
+ENV PYTHONDONTWRITEBYTECODE 1 # Don't write .pyc files
+ENV PYTHONUNBUFFERED 1     # Don't buffer stdout/stderr
+
+# Copy requirements.txt and install Python dependencies
+# This is done separately to leverage Docker's build cache
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy the rest of your application code into the container
+COPY . /app/
